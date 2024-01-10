@@ -1,4 +1,5 @@
 (function () {
+    console.log('service worker run');
     'use strict';
 
     /**
@@ -812,11 +813,14 @@
             return url + (url.indexOf('?') === -1 ? '?' : '&') + 'ngsw-cache-bust=' + Math.random();
         }
         safeFetch(req) {
+            console.log('AssetGroup.safeFetch');
+            console.log(req);
             return __awaiter(this, void 0, void 0, function* () {
                 try {
                     return yield this.scope.fetch(req);
                 }
                 catch (_a) {
+                    console.log(_a);
                     return this.adapter.newResponse('', {
                         status: 504,
                         statusText: 'Gateway Timeout',
@@ -1232,6 +1236,8 @@
             });
         }
         networkFetchWithTimeout(req) {
+            console.log('DataGroup.networkFetchWithTimeout');
+            console.log(req);
             // If there is a timeout configured, race a timeout Promise with the network fetch.
             // Otherwise, just fetch from the network directly.
             if (this.config.timeoutMs !== undefined) {
@@ -1241,6 +1247,7 @@
                         return yield networkFetch;
                     }
                     catch (_a) {
+                        console.log(_a);
                         return this.adapter.newResponse(null, {
                             status: 504,
                             statusText: 'Gateway Timeout',
@@ -1385,11 +1392,14 @@
             });
         }
         safeFetch(req) {
+            console.log('DataGroup.safeFetch');
+            console.log(req);
             return __awaiter(this, void 0, void 0, function* () {
                 try {
                     return this.scope.fetch(req);
                 }
                 catch (_a) {
+                    console.log(_a);
                     return this.adapter.newResponse(null, {
                         status: 504,
                         statusText: 'Gateway Timeout',
@@ -1504,6 +1514,9 @@
             });
         }
         handleFetch(req, context) {
+            console.log('AppVersion.handleFetch');
+            console.log(req);
+            console.log(context);
             return __awaiter(this, void 0, void 0, function* () {
                 // Check the request against each `AssetGroup` in sequence. If an `AssetGroup` can't handle the
                 // request,
@@ -1551,6 +1564,7 @@
                             return yield this.scope.fetch(req);
                         }
                         catch (_a) {
+                            console.log(_a)
                             // Navigation request failed - application is likely offline.
                             // Proceed forward to the default `handleFetch` behavior, where
                             // `indexUrl` will be requested and it should be available in the cache.
@@ -2832,11 +2846,14 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
             });
         }
         safeFetch(req) {
+            console.log('Driver.safeFetch');
+            console.log(req);
             return __awaiter(this, void 0, void 0, function* () {
                 try {
                     return yield this.scope.fetch(req);
                 }
                 catch (err) {
+                    console.log(err)
                     this.debugger.log(err, `Driver.fetch(${req.url})`);
                     return this.adapter.newResponse(null, {
                         status: 504,
